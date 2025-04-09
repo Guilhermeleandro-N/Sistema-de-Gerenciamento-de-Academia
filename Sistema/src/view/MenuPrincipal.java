@@ -1,0 +1,111 @@
+package view;
+
+import dao.AlunoDAO;
+import dao.Conexao;
+import dao.FuncionarioDAO;
+import dao.UsuarioDAO;
+import model.Aluno;
+import model.Funcionario;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+public class MenuPrincipal {
+
+    public static void main(String[] args) {
+        try (Connection conexao = Conexao.conectar()) {
+            if (conexao == null) {
+                System.out.println("Não foi possível conectar ao banco de dados.");
+                return;
+            }
+
+            Scanner scanner = new Scanner(System.in);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
+            AlunoDAO alunoDAO = new AlunoDAO(conexao);
+            FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
+
+            int opcao;
+            do {
+                System.out.println("\n=== MENU PRINCIPAL ===");
+                System.out.println("1. Cadastrar Aluno");
+                System.out.println("2. Cadastrar Funcionário");
+                System.out.println("3. Listar Alunos");
+                System.out.println("4. Listar Funcionários");
+                System.out.println("0. Sair");
+                System.out.print("Escolha uma opção: ");
+                opcao = scanner.nextInt();
+                scanner.nextLine(); // Limpar o buffer
+
+                switch (opcao) {
+                    case 1 -> {
+                        System.out.println("=== Cadastro de Aluno ===");
+                        System.out.print("Nome: ");
+                        String nome = scanner.nextLine();
+                        System.out.print("CPF: ");
+                        String cpf = scanner.nextLine();
+                        System.out.print("Telefone: ");
+                        String telefone = scanner.nextLine();
+                        System.out.print("Email: ");
+                        String email = scanner.nextLine();
+                        System.out.print("Senha: ");
+                        String senha = scanner.nextLine();
+
+                        Aluno aluno = new Aluno(nome, cpf, telefone, email, senha);
+                        int id = usuarioDAO.inserirUsuario(aluno, "aluno");
+                        alunoDAO.inserirAluno(id);
+
+                        System.out.println("Aluno cadastrado com sucesso!");
+                    }
+
+                    case 2 -> {
+                        System.out.println("=== Cadastro de Funcionário ===");
+                        System.out.print("Nome: ");
+                        String nome = scanner.nextLine();
+                        System.out.print("CPF: ");
+                        String cpf = scanner.nextLine();
+                        System.out.print("Telefone: ");
+                        String telefone = scanner.nextLine();
+                        System.out.print("Email: ");
+                        String email = scanner.nextLine();
+                        System.out.print("Senha: ");
+                        String senha = scanner.nextLine();
+                        System.out.print("Cargo: ");
+                        String cargo = scanner.nextLine();
+
+                        Funcionario funcionario = new Funcionario(nome, cpf, telefone, email, senha);
+                        int id = usuarioDAO.inserirUsuario(funcionario, "funcionario");
+                        funcionarioDAO.inserirFuncionario(id, cargo);
+
+                        System.out.println("Funcionário cadastrado com sucesso!");
+                    }
+
+                    case 3 -> {
+                        System.out.println("=== Lista de Alunos ===");
+                        List<Aluno> alunos = alunoDAO.listarAlunosCompletos();
+                        for (Aluno a : alunos) {
+                            System.out.println(a.getNome() + " | Email: " + a.getEmail() +
+                                    " | Pagamento: " + (a.isStatusPagamento() ? "Em dia" : "Atrasado"));
+                        }
+                    }
+
+                    case 4 -> {
+                        System.out.println("=== Lista de Funcionários ===");
+                        List<Funcionario> funcionarios = funcionarioDAO.listarFuncionariosCompletos();
+                        for (Funcionario f : funcionarios) {
+                            System.out.println(f.getNome() + " | Cargo: " + f.getCargo());
+                        }
+                    }
+
+                    case 0 -> System.out.println("Encerrando o sistema...");
+                    default -> System.out.println("Opção inválida.");
+                }
+
+            } while (opcao != 0);
+
+        } catch (SQLException e) {
+            System.err.println("Erro no banco de dados: " + e.getMessage());
+        }
+    }
+}
