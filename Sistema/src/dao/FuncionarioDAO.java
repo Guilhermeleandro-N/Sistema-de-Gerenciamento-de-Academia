@@ -25,7 +25,7 @@ public class FuncionarioDAO {
     public List<Funcionario> listarFuncionariosCompletos() throws SQLException {
         List<Funcionario> funcionarios = new ArrayList<>();
         String sql = """
-                SELECT u.id, u.nome, u.email, u.cpf, u.telefone, u.senha,
+                SELECT u.id, u.nome, u.email, u.senha,
                        f.cargo
                 FROM usuarios u
                 JOIN funcionarios f ON u.id = f.id_usuario
@@ -37,8 +37,6 @@ public class FuncionarioDAO {
                 Funcionario f = new Funcionario(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getString("cpf"),
-                        rs.getString("telefone"),
                         rs.getString("email"),
                         rs.getString("senha")
                 );

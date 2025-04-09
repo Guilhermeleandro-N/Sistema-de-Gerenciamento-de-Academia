@@ -18,15 +18,13 @@ public class UsuarioDAO {
 
     // INSERIR USUÁRIO (Aluno ou Funcionário)
     public int inserirUsuario(Usuario usuario, String tipo) throws SQLException {
-        String sql = "INSERT INTO usuarios (nome, email, senha, cpf, telefone, tipo) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
-            stmt.setString(4, usuario.getCpf());
-            stmt.setString(5, usuario.getTelefone());
-            stmt.setString(6, tipo); // "aluno" ou "funcionario"
+            stmt.setString(4, tipo); // "aluno" ou "funcionario"
 
             stmt.executeUpdate();
 
@@ -90,16 +88,14 @@ public class UsuarioDAO {
     private Usuario construirUsuario(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         String nome = rs.getString("nome");
-        String cpf = rs.getString("cpf");
-        String telefone = rs.getString("telefone");
         String email = rs.getString("email");
         String senha = rs.getString("senha");
         String tipo = rs.getString("tipo");
 
         if ("aluno".equalsIgnoreCase(tipo)) {
-            return new Aluno(id, nome, cpf, telefone, email, senha);
+            return new Aluno(id, nome, email, senha);
         } else if ("funcionario".equalsIgnoreCase(tipo)) {
-            return new Funcionario(id, nome, cpf, telefone, email, senha);
+            return new Funcionario(id, nome, email, senha);
         }
 
         return null;

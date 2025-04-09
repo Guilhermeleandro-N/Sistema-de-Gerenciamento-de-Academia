@@ -27,7 +27,7 @@ public class AlunoDAO {
     public List<Aluno> listarAlunosCompletos() throws SQLException {
         List<Aluno> alunos = new ArrayList<>();
         String sql = """
-            SELECT u.id, u.nome, u.email, u.cpf, u.telefone, u.senha,
+            SELECT u.id, u.nome, u.email, u.cpf, u.senha,
                    a.data_vencimento_pagamento, a.status_pagamento
             FROM usuarios u
             JOIN alunos a ON u.id = a.id_usuario
@@ -39,8 +39,6 @@ public class AlunoDAO {
                 Aluno aluno = new Aluno(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getString("cpf"),
-                        rs.getString("telefone"),
                         rs.getString("email"),
                         rs.getString("senha")
                 );

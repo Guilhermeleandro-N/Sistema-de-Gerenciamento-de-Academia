@@ -43,16 +43,12 @@ public class MenuPrincipal {
                         System.out.println("=== Cadastro de Aluno ===");
                         System.out.print("Nome: ");
                         String nome = scanner.nextLine();
-                        System.out.print("CPF: ");
-                        String cpf = scanner.nextLine();
-                        System.out.print("Telefone: ");
-                        String telefone = scanner.nextLine();
                         System.out.print("Email: ");
                         String email = scanner.nextLine();
                         System.out.print("Senha: ");
                         String senha = scanner.nextLine();
 
-                        Aluno aluno = new Aluno(nome, cpf, telefone, email, senha);
+                        Aluno aluno = new Aluno(nome, email, senha);
                         int id = usuarioDAO.inserirUsuario(aluno, "aluno");
                         alunoDAO.inserirAluno(id);
 
@@ -63,10 +59,6 @@ public class MenuPrincipal {
                         System.out.println("=== Cadastro de Funcionário ===");
                         System.out.print("Nome: ");
                         String nome = scanner.nextLine();
-                        System.out.print("CPF: ");
-                        String cpf = scanner.nextLine();
-                        System.out.print("Telefone: ");
-                        String telefone = scanner.nextLine();
                         System.out.print("Email: ");
                         String email = scanner.nextLine();
                         System.out.print("Senha: ");
@@ -74,7 +66,7 @@ public class MenuPrincipal {
                         System.out.print("Cargo: ");
                         String cargo = scanner.nextLine();
 
-                        Funcionario funcionario = new Funcionario(nome, cpf, telefone, email, senha);
+                        Funcionario funcionario = new Funcionario(nome, email, senha);
                         int id = usuarioDAO.inserirUsuario(funcionario, "funcionario");
                         funcionarioDAO.inserirFuncionario(id, cargo);
 

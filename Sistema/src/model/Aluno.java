@@ -6,12 +6,12 @@ public class Aluno extends Usuario {
     private LocalDate dataVencimentoPagamento;
     private boolean statusPagamento;
 
-    public Aluno(int id, String nome, String cpf, String telefone, String email, String senha) {
-        super(id, nome, cpf, telefone, email, senha);
+    public Aluno(int id, String nome, String email, String senha) {
+        super(id, nome,  email, senha);
     }
 
-    public Aluno(String nome, String cpf, String telefone, String email, String senha) {
-        super(nome, cpf, telefone, email, senha);
+    public Aluno(String nome, String email, String senha) {
+        super(nome, email, senha);
     }
 
     // Getter e Setter para dataVencimentoPagamento

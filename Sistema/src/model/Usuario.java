@@ -3,24 +3,20 @@ package model;
 public abstract class Usuario {
     private int id;
     private String nome;
-    private String cpf;
-    private String telefone;
+
     private String email;
     private String senha;
 
-    public Usuario(int id, String nome, String cpf, String telefone, String email, String senha) {
+    public Usuario(int id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
+
         this.email = email;
         this.senha = senha;
     }
 
-    public Usuario(String nome, String cpf, String telefone, String email, String senha) {
+    public Usuario(String nome, String email, String senha) {
         this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
         this.email = email;
         this.senha = senha;
     }
@@ -37,13 +33,6 @@ public abstract class Usuario {
         return nome;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
 
     public String getEmail() {
         return email;
@@ -55,14 +44,6 @@ public abstract class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
     }
 
     public void setEmail(String email) {
