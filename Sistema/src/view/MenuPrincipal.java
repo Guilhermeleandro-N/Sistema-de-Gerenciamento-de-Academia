@@ -3,12 +3,15 @@ package view;
 import dao.AlunoDAO;
 import dao.Conexao;
 import dao.FuncionarioDAO;
+import dao.PagamentoDAO;
 import dao.UsuarioDAO;
 import model.Aluno;
 import model.Funcionario;
+import model.Pagamento;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,6 +28,7 @@ public class MenuPrincipal {
             UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
             AlunoDAO alunoDAO = new AlunoDAO(conexao);
             FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
+            PagamentoDAO pagamentoDAO = new PagamentoDAO(conexao);
 
             int opcao;
             do {
@@ -33,6 +37,7 @@ public class MenuPrincipal {
                 System.out.println("2. Cadastrar Funcionário");
                 System.out.println("3. Listar Alunos");
                 System.out.println("4. Listar Funcionários");
+                System.out.println("5. Ver Pagamentos de um Aluno");
                 System.out.println("0. Sair");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
@@ -87,6 +92,26 @@ public class MenuPrincipal {
                         List<Funcionario> funcionarios = funcionarioDAO.listarFuncionariosCompletos();
                         for (Funcionario f : funcionarios) {
                             System.out.println(f.getNome() + " | Cargo: " + f.getCargo());
+                        }
+                    }
+
+                    case 5 -> {
+                        System.out.println("=== Pagamentos de um Aluno ===");
+                        System.out.print("Digite o ID do aluno: ");
+                        int idAluno = scanner.nextInt();
+                        scanner.nextLine();
+
+                        List<Pagamento> pagamentos = pagamentoDAO.listarPagamentosPorAluno(idAluno);
+                        if (pagamentos.isEmpty()) {
+                            System.out.println("Nenhum pagamento encontrado para este aluno.");
+                        } else {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                            for (Pagamento p : pagamentos) {
+                                System.out.println("Valor: R$" + p.getValor() +
+                                        " | Data Pagamento: " + p.getDataPagamento().format(formatter) +
+                                        " | Vencimento: " + p.getDataVencimento().format(formatter) +
+                                        " | Status: " + p.getStatus());
+                            }
                         }
                     }
 
