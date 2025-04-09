@@ -21,9 +21,6 @@ O sistema tem como objetivo gerenciar uma academia. Ele incluirá funcionalidade
 - **Cadastro de funcionários**
 - **Gerenciamento de pagamentos dos alunos**
 - **Validação da Matrícula**
-- **Pré-Cadastro de alunos caso pague uma diária**
-- **Registro de medidas iniciais do aluno**
-- **Acompanhamento mensal de progressos e medidas, incluso na ficha do aluno**
 
 ## 4. Funcionalidade Geral
 CRUD (Create, Read, Update, Delete):
@@ -44,9 +41,9 @@ CRUD (Create, Read, Update, Delete):
 
 ### **Pacotes**
 - Organização modular do sistema, separando classes em pacotes como:
-  - `model`
-  - `controller`
+  - `model``
   - `view`
+  - 'DAO'
 
 ### **Classe Abstrata**
 - Implementação da classe abstrata `Usuario` para representar atributos e métodos comuns de `Aluno` e `Funcionário`.
