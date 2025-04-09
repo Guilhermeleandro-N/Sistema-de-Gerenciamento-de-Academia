@@ -84,6 +84,7 @@ public class UsuarioDAO {
         }
     }
 
+
     // MÉTODO AUXILIAR PARA CRIAR OBJETO USUARIO DO RESULTSET
     private Usuario construirUsuario(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
