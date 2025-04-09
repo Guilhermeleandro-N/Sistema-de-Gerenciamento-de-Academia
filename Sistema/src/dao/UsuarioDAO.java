@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioDAO {
+public class UsuarioDAO implements Listavel{
     private final Connection conexao;
 
     public UsuarioDAO(Connection conexao) {
@@ -32,7 +32,7 @@ public class UsuarioDAO {
         return -1;
     }
 
-    public List<Usuario> listarUsuarios() throws SQLException {
+    public List<Usuario> listarCompletos() throws SQLException {
         List<Usuario> lista = new ArrayList<>();
         String sql = "SELECT * FROM usuarios";
         try (PreparedStatement stmt = conexao.prepareStatement(sql);

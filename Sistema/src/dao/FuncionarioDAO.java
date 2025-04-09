@@ -22,7 +22,7 @@ public class FuncionarioDAO {
         }
     }
 
-    public List<Funcionario> listarFuncionariosCompletos() throws SQLException {
+    public List<Funcionario> listarCompletos() throws SQLException {
         List<Funcionario> funcionarios = new ArrayList<>();
         String sql = """
                 SELECT u.id, u.nome, u.email, u.senha,

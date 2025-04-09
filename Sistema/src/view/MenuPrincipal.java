@@ -79,7 +79,7 @@ public class MenuPrincipal {
 
                     case 3 -> {
                         System.out.println("=== Lista de Alunos ===");
-                        List<Aluno> alunos = alunoDAO.listarAlunosCompletos();
+                        List<Aluno> alunos = alunoDAO.listarCompletos();
                         for (Aluno a : alunos) {
                             System.out.println(a.getId() + " | " + a.getNome() + " | Email: " + a.getEmail() +
                                     " | Pagamento: " + (a.isStatusPagamento() ? "Em dia" : "Atrasado"));
@@ -88,7 +88,7 @@ public class MenuPrincipal {
 
                     case 4 -> {
                         System.out.println("=== Lista de Funcionários ===");
-                        List<Funcionario> funcionarios = funcionarioDAO.listarFuncionariosCompletos();
+                        List<Funcionario> funcionarios = funcionarioDAO.listarCompletos();
                         for (Funcionario f : funcionarios) {
                             System.out.println(f.getId() + " | " + f.getNome() + " | Cargo: " + f.getCargo());
                         }
@@ -96,7 +96,7 @@ public class MenuPrincipal {
 
                     case 5 -> {
                         System.out.println("=== Editar Usuário ===");
-                        List<Usuario> usuarios = usuarioDAO.listarUsuarios();
+                        List<Usuario> usuarios = usuarioDAO.listarCompletos();
                         for (Usuario u : usuarios) {
                             System.out.println(u.getId() + " | " + u.getNome() + " | Email: " + u.getEmail());
                         }
@@ -126,7 +126,7 @@ public class MenuPrincipal {
 
                     case 6 -> {
                         System.out.println("=== Excluir Usuário ===");
-                        List<Usuario> usuarios = usuarioDAO.listarUsuarios();
+                        List<Usuario> usuarios = usuarioDAO.listarCompletos();
                         for (Usuario u : usuarios) {
                             System.out.println(u.getId() + " | " + u.getNome() + " | Email: " + u.getEmail());
                         }
@@ -170,7 +170,7 @@ public class MenuPrincipal {
 
                     case 8 -> {
                         System.out.println("=== Lista de Pagamentos ===");
-                        List<Pagamento> pagamentos = pagamentoDAO.listarPagamentos();
+                        List<Pagamento> pagamentos = pagamentoDAO.listarCompletos();
                         for (Pagamento p : pagamentos) {
                             System.out.println("ID: " + p.getId() + " | Aluno ID: " + p.getIdAluno() +
                                     " | Valor: R$" + p.getValor() +
@@ -182,7 +182,7 @@ public class MenuPrincipal {
 
                     case 9 -> {
                         System.out.println("=== Pagamentos de um Aluno ===");
-                        List<Aluno> alunos = alunoDAO.listarAlunosCompletos();
+                        List<Aluno> alunos = alunoDAO.listarCompletos();
                         for (Aluno a : alunos) {
                             System.out.println("ID: " + a.getId() + " | Nome: " + a.getNome());
                         }

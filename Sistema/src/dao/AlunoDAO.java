@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlunoDAO {
+public class AlunoDAO implements Listavel{
     private final Connection conexao;
 
     public AlunoDAO(Connection conexao) {
@@ -24,7 +24,7 @@ public class AlunoDAO {
     }
 
     // Listar todos os alunos com dados completos
-    public List<Aluno> listarAlunosCompletos() throws SQLException {
+    public List<Aluno> listarCompletos() throws SQLException {
         List<Aluno> alunos = new ArrayList<>();
         String sql = """
             SELECT u.id, u.nome, u.email, u.senha,

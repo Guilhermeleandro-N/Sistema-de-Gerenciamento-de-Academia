@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PagamentoDAO {
+public class PagamentoDAO implements Listavel{
 
     private final Connection conexao;
 
@@ -34,7 +34,7 @@ public class PagamentoDAO {
     }
 
     // Listar todos os pagamentos
-    public List<Pagamento> listarPagamentos() {
+    public List<Pagamento> listarCompletos() {
         List<Pagamento> pagamentos = new ArrayList<>();
         String sql = "SELECT * FROM pagamentos";
 
