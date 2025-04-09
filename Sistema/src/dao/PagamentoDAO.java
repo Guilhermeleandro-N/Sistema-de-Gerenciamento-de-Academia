@@ -42,14 +42,18 @@ public class PagamentoDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Pagamento pagamento = new Pagamento(
-                        rs.getInt("id_aluno"),
-                        rs.getDate("data_pagamento").toLocalDate(),
-                        rs.getDate("data_vencimento").toLocalDate(),
-                        rs.getDouble("valor"),
-                        rs.getString("status")
-                );
-                pagamento.setId(rs.getInt("id"));
+                int id = rs.getInt("id");
+                int idAluno = rs.getInt("id_aluno");
+                Date dataPgtoSql = rs.getDate("data_pagamento");
+                Date dataVencSql = rs.getDate("data_vencimento");
+                double valor = rs.getDouble("valor");
+                String status = rs.getString("status");
+
+                LocalDate dataPagamento = dataPgtoSql != null ? dataPgtoSql.toLocalDate() : null;
+                LocalDate dataVencimento = dataVencSql != null ? dataVencSql.toLocalDate() : null;
+
+                Pagamento pagamento = new Pagamento(idAluno, dataPagamento, dataVencimento, valor, status);
+                pagamento.setId(id);
                 pagamentos.add(pagamento);
             }
 
@@ -59,6 +63,7 @@ public class PagamentoDAO {
 
         return pagamentos;
     }
+
 
     // Listar pagamentos por aluno
     public List<Pagamento> listarPagamentosPorAluno(int idAluno) {

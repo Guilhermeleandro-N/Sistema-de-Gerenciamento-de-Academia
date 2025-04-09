@@ -34,10 +34,10 @@ public class MenuPrincipal {
                 System.out.println("2. Cadastrar Funcionário");
                 System.out.println("3. Listar Alunos");
                 System.out.println("4. Listar Funcionários");
-                System.out.println("5. Registrar Pagamento");
-                System.out.println("6. Listar Pagamentos");
-                System.out.println("7. Editar Usuário");
-                System.out.println("8. Excluir Usuário");
+                System.out.println("5. Editar Usuário");
+                System.out.println("6. Excluir Usuário");
+                System.out.println("7. Registrar Pagamento");
+                System.out.println("8. Listar Pagamentos");
                 System.out.println("0. Sair");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
@@ -94,42 +94,6 @@ public class MenuPrincipal {
                     }
 
                     case 5 -> {
-                        System.out.println("=== Registrar Pagamento ===");
-                        System.out.print("ID do aluno: ");
-                        int idAluno = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.print("Valor: ");
-                        double valor = scanner.nextDouble();
-                        scanner.nextLine();
-
-                        System.out.print("Data de pagamento (YYYY-MM-DD): ");
-                        LocalDate dataPagamento = LocalDate.parse(scanner.nextLine());
-
-                        System.out.print("Data de vencimento (YYYY-MM-DD): ");
-                        LocalDate dataVencimento = LocalDate.parse(scanner.nextLine());
-
-                        System.out.print("Status (pago, em atraso, pendente): ");
-                        String status = scanner.nextLine();
-
-                        Pagamento pagamento = new Pagamento(idAluno, dataPagamento, dataVencimento, valor, status);
-                        pagamentoDAO.inserirPagamento(pagamento);
-                        System.out.println("Pagamento registrado com sucesso!");
-                    }
-
-                    case 6 -> {
-                        System.out.println("=== Lista de Pagamentos ===");
-                        List<Pagamento> pagamentos = pagamentoDAO.listarPagamentos();
-                        for (Pagamento p : pagamentos) {
-                            System.out.println("ID: " + p.getId() + " | Aluno ID: " + p.getIdAluno() +
-                                    " | Valor: R$" + p.getValor() +
-                                    " | Pagamento: " + p.getDataPagamento() +
-                                    " | Vencimento: " + p.getDataVencimento() +
-                                    " | Status: " + p.getStatus());
-                        }
-                    }
-
-                    case 7 -> {
                         System.out.println("=== Editar Usuário ===");
                         List<Usuario> usuarios = usuarioDAO.listarUsuarios();
                         for (Usuario u : usuarios) {
@@ -159,7 +123,7 @@ public class MenuPrincipal {
                         }
                     }
 
-                    case 8 -> {
+                    case 6 -> {
                         System.out.println("=== Excluir Usuário ===");
                         List<Usuario> usuarios = usuarioDAO.listarUsuarios();
                         for (Usuario u : usuarios) {
@@ -179,10 +143,45 @@ public class MenuPrincipal {
                         }
                     }
 
+                    case 7 -> {
+                        System.out.println("=== Registrar Pagamento ===");
+                        System.out.print("ID do aluno: ");
+                        int idAluno = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Valor: ");
+                        double valor = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        System.out.print("Data de pagamento (YYYY-MM-DD): ");
+                        LocalDate dataPagamento = LocalDate.parse(scanner.nextLine());
+
+                        System.out.print("Data de vencimento (YYYY-MM-DD): ");
+                        LocalDate dataVencimento = LocalDate.parse(scanner.nextLine());
+
+                        System.out.print("Status (pago, em atraso, pendente): ");
+                        String status = scanner.nextLine();
+
+                        Pagamento pagamento = new Pagamento(idAluno, dataPagamento, dataVencimento, valor, status);
+                        pagamentoDAO.inserirPagamento(pagamento);
+                        System.out.println("Pagamento registrado com sucesso!");
+                    }
+
+                    case 8 -> {
+                        System.out.println("=== Lista de Pagamentos ===");
+                        List<Pagamento> pagamentos = pagamentoDAO.listarPagamentos();
+                        for (Pagamento p : pagamentos) {
+                            System.out.println("ID: " + p.getId() + " | Aluno ID: " + p.getIdAluno() +
+                                    " | Valor: R$" + p.getValor() +
+                                    " | Pagamento: " + p.getDataPagamento() +
+                                    " | Vencimento: " + p.getDataVencimento() +
+                                    " | Status: " + p.getStatus());
+                        }
+                    }
+
                     case 0 -> System.out.println("Encerrando o sistema...");
                     default -> System.out.println("Opção inválida.");
                 }
-
             } while (opcao != 0);
 
         } catch (SQLException e) {
