@@ -38,6 +38,7 @@ public class MenuPrincipal {
                 System.out.println("6. Excluir Usuário");
                 System.out.println("7. Registrar Pagamento");
                 System.out.println("8. Listar Pagamentos");
+                System.out.println("9. Listar Pagamentos de um Aluno");
                 System.out.println("0. Sair");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
@@ -176,6 +177,31 @@ public class MenuPrincipal {
                                     " | Pagamento: " + p.getDataPagamento() +
                                     " | Vencimento: " + p.getDataVencimento() +
                                     " | Status: " + p.getStatus());
+                        }
+                    }
+
+                    case 9 -> {
+                        System.out.println("=== Pagamentos de um Aluno ===");
+                        List<Aluno> alunos = alunoDAO.listarAlunosCompletos();
+                        for (Aluno a : alunos) {
+                            System.out.println("ID: " + a.getId() + " | Nome: " + a.getNome());
+                        }
+
+                        System.out.print("Digite o ID do aluno: ");
+                        int idAluno = scanner.nextInt();
+                        scanner.nextLine();
+
+                        List<Pagamento> pagamentos = pagamentoDAO.listarPagamentosPorAluno(idAluno);
+                        if (pagamentos.isEmpty()) {
+                            System.out.println("Nenhum pagamento encontrado para o aluno com ID: " + idAluno);
+                        } else {
+                            for (Pagamento p : pagamentos) {
+                                System.out.println("ID: " + p.getId() +
+                                        " | Valor: R$" + p.getValor() +
+                                        " | Pagamento: " + (p.getDataPagamento() != null ? p.getDataPagamento() : "N/A") +
+                                        " | Vencimento: " + (p.getDataVencimento() != null ? p.getDataVencimento() : "N/A") +
+                                        " | Status: " + p.getStatus());
+                            }
                         }
                     }
 
