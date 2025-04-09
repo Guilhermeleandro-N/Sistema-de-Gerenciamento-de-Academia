@@ -15,7 +15,6 @@ O sistema tem como objetivo gerenciar uma academia. Ele incluirá funcionalidade
 - Cadastro de alunos e funcionários.
 - Controle de pagamentos.
 - Verificação da mensalidade.
-- Acompanhamento do progresso dos alunos.
 
 ## 3. Funcionalidades
 - **Cadastro de alunos**
