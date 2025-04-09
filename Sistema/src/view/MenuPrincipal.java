@@ -1,17 +1,14 @@
 package view;
 
-import dao.AlunoDAO;
-import dao.Conexao;
-import dao.FuncionarioDAO;
-import dao.PagamentoDAO;
-import dao.UsuarioDAO;
+import dao.*;
 import model.Aluno;
 import model.Funcionario;
 import model.Pagamento;
+import model.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,7 +34,10 @@ public class MenuPrincipal {
                 System.out.println("2. Cadastrar Funcionário");
                 System.out.println("3. Listar Alunos");
                 System.out.println("4. Listar Funcionários");
-                System.out.println("5. Ver Pagamentos de um Aluno");
+                System.out.println("5. Registrar Pagamento");
+                System.out.println("6. Listar Pagamentos");
+                System.out.println("7. Editar Usuário");
+                System.out.println("8. Excluir Usuário");
                 System.out.println("0. Sair");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
@@ -56,7 +56,6 @@ public class MenuPrincipal {
                         Aluno aluno = new Aluno(nome, email, senha);
                         int id = usuarioDAO.inserirUsuario(aluno, "aluno");
                         alunoDAO.inserirAluno(id);
-
                         System.out.println("Aluno cadastrado com sucesso!");
                     }
 
@@ -74,7 +73,6 @@ public class MenuPrincipal {
                         Funcionario funcionario = new Funcionario(nome, email, senha);
                         int id = usuarioDAO.inserirUsuario(funcionario, "funcionario");
                         funcionarioDAO.inserirFuncionario(id, cargo);
-
                         System.out.println("Funcionário cadastrado com sucesso!");
                     }
 
@@ -82,7 +80,7 @@ public class MenuPrincipal {
                         System.out.println("=== Lista de Alunos ===");
                         List<Aluno> alunos = alunoDAO.listarAlunosCompletos();
                         for (Aluno a : alunos) {
-                            System.out.println(a.getNome() + " | Email: " + a.getEmail() +
+                            System.out.println(a.getId() + " | " + a.getNome() + " | Email: " + a.getEmail() +
                                     " | Pagamento: " + (a.isStatusPagamento() ? "Em dia" : "Atrasado"));
                         }
                     }
@@ -91,27 +89,93 @@ public class MenuPrincipal {
                         System.out.println("=== Lista de Funcionários ===");
                         List<Funcionario> funcionarios = funcionarioDAO.listarFuncionariosCompletos();
                         for (Funcionario f : funcionarios) {
-                            System.out.println(f.getNome() + " | Cargo: " + f.getCargo());
+                            System.out.println(f.getId() + " | " + f.getNome() + " | Cargo: " + f.getCargo());
                         }
                     }
 
                     case 5 -> {
-                        System.out.println("=== Pagamentos de um Aluno ===");
-                        System.out.print("Digite o ID do aluno: ");
+                        System.out.println("=== Registrar Pagamento ===");
+                        System.out.print("ID do aluno: ");
                         int idAluno = scanner.nextInt();
                         scanner.nextLine();
 
-                        List<Pagamento> pagamentos = pagamentoDAO.listarPagamentosPorAluno(idAluno);
-                        if (pagamentos.isEmpty()) {
-                            System.out.println("Nenhum pagamento encontrado para este aluno.");
+                        System.out.print("Valor: ");
+                        double valor = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        System.out.print("Data de pagamento (YYYY-MM-DD): ");
+                        LocalDate dataPagamento = LocalDate.parse(scanner.nextLine());
+
+                        System.out.print("Data de vencimento (YYYY-MM-DD): ");
+                        LocalDate dataVencimento = LocalDate.parse(scanner.nextLine());
+
+                        System.out.print("Status (pago, em atraso, pendente): ");
+                        String status = scanner.nextLine();
+
+                        Pagamento pagamento = new Pagamento(idAluno, dataPagamento, dataVencimento, valor, status);
+                        pagamentoDAO.inserirPagamento(pagamento);
+                        System.out.println("Pagamento registrado com sucesso!");
+                    }
+
+                    case 6 -> {
+                        System.out.println("=== Lista de Pagamentos ===");
+                        List<Pagamento> pagamentos = pagamentoDAO.listarPagamentos();
+                        for (Pagamento p : pagamentos) {
+                            System.out.println("ID: " + p.getId() + " | Aluno ID: " + p.getIdAluno() +
+                                    " | Valor: R$" + p.getValor() +
+                                    " | Pagamento: " + p.getDataPagamento() +
+                                    " | Vencimento: " + p.getDataVencimento() +
+                                    " | Status: " + p.getStatus());
+                        }
+                    }
+
+                    case 7 -> {
+                        System.out.println("=== Editar Usuário ===");
+                        List<Usuario> usuarios = usuarioDAO.listarUsuarios();
+                        for (Usuario u : usuarios) {
+                            System.out.println(u.getId() + " | " + u.getNome() + " | Email: " + u.getEmail());
+                        }
+
+                        System.out.print("ID do usuário para editar: ");
+                        int idEditar = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Novo nome: ");
+                        String novoNome = scanner.nextLine();
+
+                        System.out.print("Novo email: ");
+                        String novoEmail = scanner.nextLine();
+
+                        System.out.print("Nova senha: ");
+                        String novaSenha = scanner.nextLine();
+
+                        Usuario u = new Usuario(idEditar, novoNome, novoEmail, novaSenha) {};
+                        boolean atualizado = usuarioDAO.atualizarUsuario(u);
+
+                        if (atualizado) {
+                            System.out.println("Usuário atualizado com sucesso!");
                         } else {
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                            for (Pagamento p : pagamentos) {
-                                System.out.println("Valor: R$" + p.getValor() +
-                                        " | Data Pagamento: " + p.getDataPagamento().format(formatter) +
-                                        " | Vencimento: " + p.getDataVencimento().format(formatter) +
-                                        " | Status: " + p.getStatus());
-                            }
+                            System.out.println("Falha ao atualizar usuário.");
+                        }
+                    }
+
+                    case 8 -> {
+                        System.out.println("=== Excluir Usuário ===");
+                        List<Usuario> usuarios = usuarioDAO.listarUsuarios();
+                        for (Usuario u : usuarios) {
+                            System.out.println(u.getId() + " | " + u.getNome() + " | Email: " + u.getEmail());
+                        }
+
+                        System.out.print("ID do usuário para excluir: ");
+                        int idExcluir = scanner.nextInt();
+                        scanner.nextLine();
+
+                        boolean excluido = usuarioDAO.excluirUsuario(idExcluir);
+
+                        if (excluido) {
+                            System.out.println("Usuário excluído com sucesso!");
+                        } else {
+                            System.out.println("Falha ao excluir usuário.");
                         }
                     }
 
